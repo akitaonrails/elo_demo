@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "elo_demo"
+
+t = EloDemo::Tournment.new
+t.run!
+t.print_ranking
+
+attempts = 10
+
+second_player = t.sorted_by_elo[1]
+third_player = t.sorted_by_elo[2]
+
+puts "#{second_player.name} (2o) wins from #{third_player.name} (3o) #{attempts} times"
+attempts.times do
+  t.mark_win(second_player, third_player)
+end
+
+t.print_ranking
+
+second_player = t.sorted_by_elo[1]
+worst_player = t.sorted_by_elo.last
+
+puts "#{second_player.name} (2o) loses to #{worst_player.name} (10o) #{attempts} times"
+attempts.times do
+  t.mark_win(worst_player, second_player)
+end
+
+t.print_ranking
