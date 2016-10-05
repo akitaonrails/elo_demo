@@ -1,6 +1,5 @@
 require "elo_demo/version"
 require "elo"
-require "faker"
 
 module EloDemo
   class Player
@@ -58,7 +57,7 @@ module EloDemo
     def print_naive_ranking
       puts "Ranking sorted by Points (wins - loses)"
       puts "    #{"Name".ljust(10)}  Games  Wins  Loses  Points  Elo Rating"
-      players.sort_by { |p| p.wins - p.loses }.reverse.each_with_index do |p, index|
+      sorted_by_naive.each_with_index do |p, index|
         print_line p, index + 1
       end
       puts ""
@@ -71,6 +70,10 @@ module EloDemo
         print_line p, index + 1
       end
       puts ""
+    end
+
+    def sorted_by_naive
+      players.sort_by { |p| p.wins - p.loses }.reverse
     end
 
     def sorted_by_elo
